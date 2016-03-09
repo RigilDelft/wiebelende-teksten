@@ -1,0 +1,71 @@
+<html>
+    <head>  
+	<!--<script src="js/vendor/TweenMax.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+    
+    <!-- SITE FONT IS MONSTROSOLID, FOR ILLUSTRATION PURPOSES WE USE A GOOGLE FONT-->
+    <link href='https://fonts.googleapis.com/css?family=Hanalei+Fill' rel='stylesheet' type='text/css'>
+        <style>
+			body {
+				background:#FC0;
+				text-align:center;			
+			}
+		
+            .title {
+                color: #0A2D32;
+                font-family: 'MonstroSolid', 'Hanalei Fill', 'Arial';
+                font-size: 180px;
+                font-weight: normal;
+                text-transform: uppercase;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="title">Quiztime!</h1>
+        <script>
+            var chars = [];
+            
+            // 1. Split text
+            // Read the content of the heading
+
+            function textSplit() {
+                var title = document.querySelector('.title');
+                var splitText = title.textContent.split('');
+
+                // Write back the seperated characters
+                // Store a reference for each character in 'chars'
+
+                title.textContent = '';
+                var character;
+                for(var i=0, len=splitText.length; i<len; i++) {
+                    character = document.createElement('span');
+                    character.textContent = splitText[i];
+                    character.style.display = 'inline-block';
+
+                    chars.push(character);
+                    title.appendChild(character);
+                }
+            }
+
+            // 2. Create timeline for the wiggle effect
+            // Use loop to create multiple random positions
+            // Use the cycle property so each char get a different random position
+
+            function textWiggle() {
+                var timelineWiggle = new TimelineMax({repeat:-1, yoyo:true}); 
+                for(var j=0; j < 10; j++) {
+                    timelineWiggle.staggerTo(chars, 0.1, {
+                        cycle: {
+                            x: function() { return Math.random()*4 - 2; },
+                            y: function() { return Math.random()*4 - 2; },
+                            rotation: function() { return Math.random()*10 - 5; }
+                        },
+                        ease: Linear.easeNone
+                    }, 0);
+                }
+            }
+            textSplit();
+            textWiggle();                   
+        </script>
+    </body>
+</html>
